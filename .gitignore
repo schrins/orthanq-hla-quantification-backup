@@ -1,0 +1,4 @@
+.snakemake
+benchmarks
+results
+logs
