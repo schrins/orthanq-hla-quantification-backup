@@ -6,5 +6,5 @@ include: "rules/orthanq.smk"
 
 rule all:
     input:
-        expand("results/orthanq/preprocess/{sample}_{hla}/{sample}_{hla}.bcf", sample=samples.sample_name, hla=loci),
+        expand("results/orthanq/preprocess/{sample}_{hla}/{sample}.bcf", sample=samples.sample_name, hla=loci),
         expand("results/orthanq/calls/{sample}_{hla}/{sample}_{hla}.tsv", sample=samples.sample_name, hla=loci)
