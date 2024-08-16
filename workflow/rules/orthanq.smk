@@ -26,7 +26,7 @@ rule preprocess:
         genome_fai="results/refs/hs_genome.fasta.fai",
         pangenome="results/preparation/hprc-v1.0-mc-grch38.xg",
         reads=get_fastq_input
-    output: "results/orthanq/preprocess/{sample}_{hla}/{sample}.bcf",
+    output: "results/orthanq/preprocess/{sample}_{hla}/{sample}_{hla}.bcf",
     log:
         "logs/preprocess/{sample}_{hla}.log",
     conda:
@@ -37,16 +37,16 @@ rule preprocess:
     benchmark:    
         "benchmarks/orthanq_preprocess/{sample}_{hla}.tsv" 
     shell:
-        "orthanq preprocess hla --genome {input.genome} --bwa-index {params.bwa_idx_prefix} --haplotype-variants {input.candidate_variants} --vg-index {input.pangenome} --output {params.output_folder} --reads {input.reads[0]} {input.reads[1]} 2> {log}"
+        "orthanq preprocess hla --genome {input.genome} --bwa-index {params.bwa_idx_prefix} --haplotype-variants {input.candidate_variants} --vg-index {input.pangenome} --output {output} --reads {input.reads[0]} {input.reads[1]} 2> {log}"
 
 # #wrappers should be used once they are ready
 rule quantify:
     input:
         haplotype_variants="results/candidate_variants/{hla}.vcf",
-        haplotype_calls="results/orthanq/preprocess/{sample}_{hla}/{sample}.bcf",
+        haplotype_calls="results/orthanq/preprocess/{sample}_{hla}/{sample}_{hla}.bcf",
         xml="results/preparation/hla.xml",
     output:
-        tsv="results/orthanq/calls/{sample}_{hla}/{sample}_{hla}.tsv",
+        tsv="results/orthanq/calls/{sample}_{hla}/{sample}_{hla}.csv",
         solutions="results/orthanq/calls/{sample}_{hla}/viral_solutions.json",
         final_solution="results/orthanq/calls/{sample}_{hla}/final_solution.json",
         lp_solution="results/orthanq/calls/{sample}_{hla}/lp_solution.json",
