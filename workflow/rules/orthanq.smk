@@ -47,12 +47,12 @@ rule quantify:
         xml="results/preparation/hla.xml",
     output:
         table="results/orthanq/calls/{sample}_{hla}/{sample}_{hla}.csv",
-        three_field_solutions="results/orthanq/{sample}_{hla}/3_field_solutions.json",
-        two_field_solutions="results/orthanq/{sample}_{hla}/2_field_solutions.json",
-        final_solutions="results/orthanq/{sample}_{hla}/final_solution.json",
-        lp_solution="results/orthanq/{sample}_{hla}/lp_solution.json",
-        two_field_table="results/orthanq/{sample}_{hla}/2-field.csv",
-        g_groups="results/orthanq/{sample}_{hla}/G_groups.csv"
+        three_field_solutions="results/orthanq/calls/{sample}_{hla}/3_field_solutions.json",
+        two_field_solutions="results/orthanq/calls/{sample}_{hla}/2_field_solutions.json",
+        final_solutions="results/orthanq/calls/{sample}_{hla}/final_solution.json",
+        lp_solution="results/orthanq/calls/{sample}_{hla}/lp_solution.json",
+        two_field_table="results/orthanq/calls/{sample}_{hla}/2-field.csv",
+        g_groups="results/orthanq/calls/{sample}_{hla}/G_groups.csv"
     log:
         "logs/orthanq_call/{sample}_{hla}.log"
     conda:
@@ -65,4 +65,4 @@ rule quantify:
         "benchmarks/orthanq_quantify/{sample}_{hla}.tsv"
     shell:
         "orthanq call hla --haplotype-variants {input.haplotype_variants} --xml {input.xml} --haplotype-calls {input.haplotype_calls} "
-        " --prior {params.prior} --enable-equivalence-class-constraint --output {output.table} 2> {log}"
+        " --prior {params.prior} --output {output.table} 2> {log}"
