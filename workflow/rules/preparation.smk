@@ -1,28 +1,28 @@
-rule get_hs_genome:
+rule get_genome:
     output:
-        "results/refs/hs_genome.fasta",
+        genome,
+    log:
+        "logs/preparation/get-genome.log",
     params:
-        species="homo_sapiens",
+        species=config["ref"]["species"],
         datatype="dna",
-        build="GRCh38",
-        release="112",
-    log:
-        "logs/ensembl/get_genome.log",
-    cache: True  # save space and time with between workflow caching (see docs)
+        build=config["ref"]["build"],
+        release=config["ref"]["release"],
+        chromosome=config["ref"].get("chromosome"),
+    cache: "omit-software"
     wrapper:
-        "v1.25.0/bio/reference/ensembl-sequence"
+        "v2.3.2/bio/reference/ensembl-sequence"
 
-rule samtools_faidx:
+rule genome_faidx:
     input:
-        "results/refs/hs_genome.fasta",
+        genome,
     output:
-        "results/refs/hs_genome.fasta.fai",
+        genome_fai,
     log:
-        "logs/samtools_faidx.log",
-    params:
-        extra="",
+        "logs/preparation/genome-faidx.log",
+    cache: "omit-software"
     wrapper:
-        "v3.14.0/bio/samtools/faidx"
+        "v2.3.2/bio/samtools/faidx"
 
 rule get_hla_genes_and_xml:
     output:
