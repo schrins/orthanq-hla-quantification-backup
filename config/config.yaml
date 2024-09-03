@@ -1,5 +1,11 @@
 samples: "config/units.tsv"
 
+#tool configurations
+
+#please select "diploid" for healthy samples and "uniform" for tumor samples
+orthanq_prior: "uniform"
+
+#reference conigurations
 ref:
   # Number of chromosomes to consider for calling.
   # The first n entries of the FASTA will be considered.

@@ -58,7 +58,7 @@ rule quantify:
     conda:
         "../envs/orthanq.yaml"
     params:
-        prior="uniform"
+        prior=config["orthanq_prior"]
     resources: 
         mem_mb=5000
     benchmark:    
