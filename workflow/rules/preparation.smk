@@ -69,14 +69,11 @@ rule get_pangenome:
 
 rule bwa_index:
     input:
-        "results/refs/hs_genome.fasta"
+        genome,
     output:
-        idx=multiext("results/bwa-index/hs_genome", ".amb", ".ann", ".bwt", ".pac", ".sa")
+        idx=multiext(genome, ".amb", ".ann", ".bwt", ".pac", ".sa"),
     log:
-        "logs/bwa_index/hs_genome.log"
+        "logs/preparation/bwa_index.log",
     cache: True
-    params:
-        algorithm="bwtsw",
     wrapper:
         "v2.3.2/bio/bwa/index"
-        

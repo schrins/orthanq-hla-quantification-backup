@@ -4,7 +4,7 @@ rule generate_candidates:
         allele_freq="results/preparation/allele_frequencies.csv",
         hla_genes="results/preparation/hla_gen.fasta",
         xml="results/preparation/hla.xml",
-        genome="results/refs/hs_genome.fasta",
+        genome=genome,
     output:
         vcfs=expand("results/candidate_variants/{hla}.vcf", hla=loci)
     log:
@@ -20,10 +20,10 @@ rule generate_candidates:
 
 rule preprocess:
     input:
-        bwa_index=multiext("results/bwa-index/hs_genome", ".amb", ".ann", ".bwt", ".pac", ".sa"),
+        bwa_index=rules.bwa_index.output,
         candidate_variants="results/candidate_variants/{hla}.vcf",
-        genome="results/refs/hs_genome.fasta",
-        genome_fai="results/refs/hs_genome.fasta.fai",
+        genome=genome,
+        genome_fai=genome_fai,
         pangenome="results/preparation/hprc-v1.0-mc-grch38.xg",
         reads=get_fastq_input
     output: "results/orthanq/preprocess/{sample}_{hla}/{sample}_{hla}.bcf",
