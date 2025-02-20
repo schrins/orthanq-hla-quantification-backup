@@ -1,4 +1,4 @@
-samples: "config/units.tsv"
+units: "config/units.tsv"
 
 #tool configurations
 
