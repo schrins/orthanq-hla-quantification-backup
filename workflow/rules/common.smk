@@ -20,7 +20,7 @@ genome_fai = f"{genome}.fai"
 loci = ["A","B", "C", "DQA1","DQB1"]
 
 # read samples
-samples = pd.read_csv(config["samples"], sep="\t").set_index(
+samples = pd.read_csv(config["units"], sep="\t").set_index(
     ["sample_name"], drop=False
 )
 
