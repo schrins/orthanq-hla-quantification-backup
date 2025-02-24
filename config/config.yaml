@@ -5,6 +5,9 @@ units: "config/units.tsv"
 #please select "diploid" for healthy samples and "uniform" for tumor samples
 orthanq_prior: "uniform"
 
+#set threads for orthanq preprocessing
+threads: 2
+
 #reference conigurations
 ref:
   # Number of chromosomes to consider for calling.
