@@ -34,10 +34,11 @@ rule preprocess:
     params: 
         bwa_idx_prefix=lambda wc, input: os.path.splitext(input.bwa_index[0])[0],
         output_folder=lambda wc, output: os.path.dirname(output[0])
+    threads: config["threads"]
     benchmark:    
         "benchmarks/orthanq_preprocess/{sample}_{hla}.tsv" 
     shell:
-        "orthanq preprocess hla --genome {input.genome} --bwa-index {params.bwa_idx_prefix} --haplotype-variants {input.candidate_variants} --vg-index {input.pangenome} --output {output} --reads {input.reads[0]} {input.reads[1]} 2> {log}"
+        "orthanq preprocess hla --genome {input.genome} --bwa-index {params.bwa_idx_prefix} --haplotype-variants {input.candidate_variants} --vg-index {input.pangenome} --output {output} --reads {input.reads[0]} {input.reads[1]} --threads {threads} 2> {log}"
 
 # #wrappers should be used once they are ready
 rule quantify:
