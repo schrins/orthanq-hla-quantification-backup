@@ -1,4 +1,4 @@
-units: "config/units.tsv"
+orthanq_input: "config/units.tsv"
 
 #tool configurations
 
