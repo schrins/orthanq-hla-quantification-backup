@@ -16,8 +16,8 @@ genome_prefix = f"resources/{genome_name}"
 genome = f"{genome_prefix}.fasta"
 genome_fai = f"{genome}.fai"
 
-# list of alleles that will be checked
-loci = ["A","B", "C", "DQA1","DQB1"]
+# list of alleles that will be predicted
+loci = config["loci"]
 
 # read samples
 samples = pd.read_csv(config["orthanq_input"], sep="\t").set_index(
