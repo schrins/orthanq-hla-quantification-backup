@@ -1,10 +1,12 @@
-
 import pandas as pd
 import os
 
+
 configfile: "config/config.yaml"
 
+
 ruleorder: generate_candidates > preprocess
+
 
 # construct genome name
 datatype_genome = "dna"
@@ -24,16 +26,19 @@ samples = pd.read_csv(config["orthanq_input"], sep="\t").set_index(
     ["sample_name"], drop=False
 )
 
-#The workflow will by default use BAM input if 'bam' column is filled. Otherwise, it will use `fq1` and `fq2` columns.
+
+# The workflow will by default use BAM input if 'bam' column is filled. Otherwise, it will use `fq1` and `fq2` columns.
 def get_fastq_input(wildcards):
     sample = samples.loc[wildcards.sample]
     return [sample["fq1"], sample["fq2"]]
+
 
 def get_orthanq_input(wildcards):
     sample = samples.loc[wildcards.sample]
     if pd.notna(sample.get("bam")) and sample["bam"]:
         return sample["bam"]
     return get_fastq_input(wildcards)
+
 
 def get_orthanq_input_params(wildcards):
     sample = samples.loc[wildcards.sample]

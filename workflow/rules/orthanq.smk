@@ -1,4 +1,4 @@
-#wrappers should be used once they are ready
+# wrappers should be used once they are ready
 rule generate_candidates:
     input:
         allele_freq="results/preparation/allele_frequencies.csv",
@@ -6,17 +6,18 @@ rule generate_candidates:
         xml="results/preparation/hla.xml",
         genome=genome,
     output:
-        vcfs=expand("results/candidate_variants/{hla}.vcf", hla=loci)
+        vcfs=expand("results/candidate_variants/{hla}.vcf", hla=loci),
     log:
         "logs/candidates/candidates.log",
     conda:
         "../envs/orthanq.yaml"
     params:
-        output_folder=lambda wc, output: os.path.dirname(output.vcfs[0])
-    benchmark:    
-        "benchmarks/orthanq_candidates/orthanq_candidates.tsv" 
+        output_folder=lambda wc, output: os.path.dirname(output.vcfs[0]),
+    benchmark:
+        "benchmarks/orthanq_candidates/orthanq_candidates.tsv"
     shell:
         "orthanq candidates hla --allele-freq {input.allele_freq} --alleles {input.hla_genes} --genome {input.genome} --xml {input.xml} --output {params.output_folder} 2> {log}"
+
 
 rule preprocess:
     input:
@@ -25,21 +26,23 @@ rule preprocess:
         genome=genome,
         genome_fai=genome_fai,
         pangenome="results/preparation/hprc-v1.0-mc-grch38.xg",
-        orthanq_input=get_orthanq_input
-    output: "results/orthanq/preprocess/{sample}_{hla}/{sample}_{hla}.bcf",
+        orthanq_input=get_orthanq_input,
+    output:
+        "results/orthanq/preprocess/{sample}_{hla}/{sample}_{hla}.bcf",
     log:
         "logs/preprocess/{sample}_{hla}.log",
     conda:
         "../envs/orthanq.yaml"
-    params: 
+    params:
         bwa_idx_prefix=lambda wc, input: os.path.splitext(input.bwa_index[0])[0],
         output_folder=lambda wc, output: os.path.dirname(output[0]),
-        input_params=get_orthanq_input_params
+        input_params=get_orthanq_input_params,
     threads: config["threads"]
-    benchmark:    
-        "benchmarks/orthanq_preprocess/{sample}_{hla}.tsv" 
+    benchmark:
+        "benchmarks/orthanq_preprocess/{sample}_{hla}.tsv"
     shell:
         "orthanq preprocess hla --genome {input.genome} --bwa-index {params.bwa_idx_prefix} --haplotype-variants {input.candidate_variants} --vg-index {input.pangenome} --output {output} {params.input_params} --threads {threads} 2> {log}"
+
 
 # #wrappers should be used once they are ready
 rule quantify:
@@ -54,16 +57,16 @@ rule quantify:
         final_solutions="results/orthanq/calls/{sample}_{hla}/final_solution.json",
         lp_solution="results/orthanq/calls/{sample}_{hla}/lp_solution.json",
         two_field_table="results/orthanq/calls/{sample}_{hla}/2-field.csv",
-        g_groups="results/orthanq/calls/{sample}_{hla}/G_groups.csv"
+        g_groups="results/orthanq/calls/{sample}_{hla}/G_groups.csv",
     log:
-        "logs/orthanq_call/{sample}_{hla}.log"
+        "logs/orthanq_call/{sample}_{hla}.log",
     conda:
         "../envs/orthanq.yaml"
     params:
-        prior=config["orthanq_prior"]
-    resources: 
-        mem_mb=5000
-    benchmark:    
+        prior=config["orthanq_prior"],
+    resources:
+        mem_mb=5000,
+    benchmark:
         "benchmarks/orthanq_quantify/{sample}_{hla}.tsv"
     shell:
         "orthanq call hla --extend-haplotypes --num-extend-haplotypes 3 --haplotype-variants {input.haplotype_variants} --xml {input.xml} "
