@@ -1,4 +1,4 @@
-units: "config/units.tsv"
+orthanq_input: "config/units.tsv"
 
 #tool configurations
 
@@ -8,6 +8,13 @@ orthanq_prior: "uniform"
 #set threads for orthanq preprocessing
 threads: 2
 
+#set which HLA alleles to be predicted (currently only 'A', 'B', 'C' and 'DQB1' are supported.)
+loci:
+  - "A"
+  - "B"
+  - "C"
+  - "DQB1"
+  
 #reference conigurations
 ref:
   # Number of chromosomes to consider for calling.

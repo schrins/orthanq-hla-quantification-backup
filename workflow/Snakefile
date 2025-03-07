@@ -1,16 +1,46 @@
 configfile: "config/config.yaml"
 
+
 include: "rules/common.smk"
 include: "rules/preparation.smk"
-include: "rules/orthanq.smk" 
+include: "rules/orthanq.smk"
+
 
 rule all:
     input:
         # expand("results/orthanq/preprocess/{sample}_{hla}/{sample}.bcf", sample=samples.sample_name, hla=loci),
-        expand("results/orthanq/calls/{sample}_{hla}/{sample}_{hla}.csv", sample=samples.sample_name, hla=loci),
-        expand("results/orthanq/calls/{sample}_{hla}/3_field_solutions.json", sample=samples.sample_name, hla=loci),
-        expand("results/orthanq/calls/{sample}_{hla}/2_field_solutions.json", sample=samples.sample_name, hla=loci),
-        expand("results/orthanq/calls/{sample}_{hla}/final_solution.json", sample=samples.sample_name, hla=loci),
-        expand("results/orthanq/calls/{sample}_{hla}/lp_solution.json", sample=samples.sample_name, hla=loci),
-        expand("results/orthanq/calls/{sample}_{hla}/2-field.csv", sample=samples.sample_name, hla=loci),
-        expand("results/orthanq/calls/{sample}_{hla}/G_groups.csv", sample=samples.sample_name, hla=loci)
+        expand(
+            "results/orthanq/calls/{sample}_{hla}/{sample}_{hla}.csv",
+            sample=samples.sample_name,
+            hla=loci,
+        ),
+        expand(
+            "results/orthanq/calls/{sample}_{hla}/3_field_solutions.json",
+            sample=samples.sample_name,
+            hla=loci,
+        ),
+        expand(
+            "results/orthanq/calls/{sample}_{hla}/2_field_solutions.json",
+            sample=samples.sample_name,
+            hla=loci,
+        ),
+        expand(
+            "results/orthanq/calls/{sample}_{hla}/final_solution.json",
+            sample=samples.sample_name,
+            hla=loci,
+        ),
+        expand(
+            "results/orthanq/calls/{sample}_{hla}/lp_solution.json",
+            sample=samples.sample_name,
+            hla=loci,
+        ),
+        expand(
+            "results/orthanq/calls/{sample}_{hla}/2-field.csv",
+            sample=samples.sample_name,
+            hla=loci,
+        ),
+        expand(
+            "results/orthanq/calls/{sample}_{hla}/G_groups.csv",
+            sample=samples.sample_name,
+            hla=loci,
+        ),
