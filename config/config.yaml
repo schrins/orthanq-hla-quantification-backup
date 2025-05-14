@@ -5,7 +5,7 @@ orthanq_input: "config/units.tsv"
 #please select "diploid" for healthy samples and "uniform" for tumor samples
 orthanq_prior: "uniform"
 
-#set threads for orthanq preprocessing
+#set threads for orthanq preprocessing. Increase this generously if a compute cluster is available.
 threads: 2
 
 #set which HLA alleles to be predicted (currently only 'A', 'B', 'C' and 'DQB1' are supported.)
