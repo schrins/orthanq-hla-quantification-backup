@@ -17,7 +17,7 @@ rule generate_candidates:
     benchmark:
         "benchmarks/orthanq_candidates/orthanq_candidates.tsv"
     shell:
-        "orthanq candidates hla --allele-freq {input.allele_freq} --alleles {input.hla_genes} --genome {input.genome} --xml {input.xml} --threads {params.threads} --output {params.output_folder} 2> {log}"
+        "orthanq candidates hla --allele-freq {input.allele_freq} --alleles {input.hla_genes} --genome {input.genome} --xml {input.xml} --threads {threads} --output {params.output_folder} 2> {log}"
 
 
 rule preprocess:
