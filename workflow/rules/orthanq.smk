@@ -70,5 +70,5 @@ rule quantify:
     benchmark:
         "benchmarks/orthanq_quantify/{sample}_{hla}.tsv"
     shell:
-        "orthanq call hla --extend-haplotypes --num-extend-haplotypes 3 --haplotype-variants {input.haplotype_variants} --xml {input.xml} "
+        "orthanq call hla --haplotype-variants {input.haplotype_variants} --xml {input.xml} "
         " --haplotype-calls {input.haplotype_calls} --prior {params.prior} --output {output.table} 2> {log}"
