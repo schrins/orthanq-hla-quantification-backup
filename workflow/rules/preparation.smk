@@ -53,22 +53,6 @@ rule unzip_xml:
         "unzip -o {input} -d {params.path_to_unzip}"
 
 
-rule get_allele_frequencies:
-    output:
-        rda="results/preparation/allele_frequencies.rda",
-        csv="results/preparation/allele_frequencies.csv",
-    conda:
-        "../envs/R.yaml"
-    log:
-        "logs/get_allele_frequencies.log",
-    params:
-        data_link="https://github.com/Genentech/midasHLA/blob/11bde30cbbf11b34f2dea29a6284371a9c1e9440/data/allele_frequencies.rda?raw=true",
-    shell:
-        """
-        Rscript -e 'download.file("{params.data_link}", "{output.rda}"); load("{output.rda}"); write.csv(allele_frequencies, file="{output.csv}")' 2> {log}
-        """
-
-
 rule get_pangenome:
     output:
         "results/preparation/hprc-v1.0-mc-grch38.xg",
