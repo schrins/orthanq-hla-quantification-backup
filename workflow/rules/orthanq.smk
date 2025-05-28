@@ -1,7 +1,6 @@
 # wrappers should be used once they are ready
 rule generate_candidates:
     input:
-        allele_freq="results/preparation/allele_frequencies.csv",
         hla_genes="results/preparation/hla_gen.fasta",
         xml="results/preparation/hla.xml",
         genome=genome,
@@ -17,7 +16,7 @@ rule generate_candidates:
     benchmark:
         "benchmarks/orthanq_candidates/orthanq_candidates.tsv"
     shell:
-        "orthanq candidates hla --allele-freq {input.allele_freq} --alleles {input.hla_genes} --genome {input.genome} --xml {input.xml} --threads {threads} --output {params.output_folder} 2> {log}"
+        "orthanq candidates hla --alleles {input.hla_genes} --genome {input.genome} --xml {input.xml} --threads {threads} --output {params.output_folder} 2> {log}"
 
 
 rule preprocess:
