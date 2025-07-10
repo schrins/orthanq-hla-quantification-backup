@@ -6,6 +6,7 @@ rule generate_candidates:
         genome=genome,
     output:
         vcfs=expand("results/candidate_variants/{hla}.vcf", hla=loci),
+        bam="results/candidate_variants/alignment_sorted.sam"
     log:
         "logs/candidates/candidates.log",
     conda:
