@@ -5,8 +5,8 @@ rule generate_candidates:
         xml="results/preparation/hla.xml",
         genome=genome,
     output:
-        vcfs=expand("results/candidate_variants/{hla}.vcf", hla=loci),
-        bam="results/candidate_variants/alignment_sorted.sam"
+        vcfs=expand("results/orthanq/candidate_variants/{hla}.vcf", hla=loci),
+        bam="results/orthanq/candidate_variants/alignment_sorted.sam"
     log:
         "logs/candidates/candidates.log",
     conda:
@@ -23,7 +23,7 @@ rule generate_candidates:
 rule preprocess:
     input:
         bwa_index=rules.bwa_index.output,
-        candidate_variants="results/candidate_variants/{hla}.vcf",
+        candidate_variants="results/orthanq/candidate_variants/{hla}.vcf",
         genome=genome,
         genome_fai=genome_fai,
         pangenome="results/preparation/hprc-v1.0-mc-grch38.xg",
@@ -48,7 +48,7 @@ rule preprocess:
 # #wrappers should be used once they are ready
 rule quantify:
     input:
-        haplotype_variants="results/candidate_variants/{hla}.vcf",
+        haplotype_variants="results/orthanq/candidate_variants/{hla}.vcf",
         haplotype_calls="results/orthanq/preprocess/{sample}_{hla}/{sample}_{hla}.bcf",
         xml="results/preparation/hla.xml",
     output:
