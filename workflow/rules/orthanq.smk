@@ -20,29 +20,46 @@ rule generate_candidates:
         "orthanq candidates hla --alleles {input.hla_genes} --genome {input.genome} --xml {input.xml} --threads {threads} --output {params.output_folder} 2> {log}"
 
 
+rule create_graph_symlink:
+    input:
+        "results/preparation/hprc-v1.0-mc-grch38.xg",
+    output:
+        "results/preparation/linked_graphs/{sample}_{hla}/hprc-v1.0-mc-grch38.xg",
+    params:
+        target_dir=subpath(output, parent=True),
+    log:
+        "logs/link_graph/{sample}_{hla}.log",
+    shell:
+        """
+        mkdir -p {params.target_dir}
+        ln -sfr {input} {output}
+        """
+
+
 rule preprocess:
     input:
         bwa_index=rules.bwa_index.output,
         candidate_variants="results/orthanq/candidate_variants/{hla}.vcf",
         genome=genome,
         genome_fai=genome_fai,
-        pangenome="results/preparation/hprc-v1.0-mc-grch38.xg",
+        pangenome="results/preparation/linked_graphs/{sample}_{hla}/hprc-v1.0-mc-grch38.xg",
         orthanq_input=get_orthanq_input,
     output:
-        "results/orthanq/preprocess/{sample}_{hla}/{sample}_{hla}.bcf",
+        bcf="results/orthanq/preprocess/{sample}_{hla}/{sample}_{hla}.bcf",
+        aux=temp(multiext("results/preparation/linked_graphs/{sample}_{hla}/hprc-v1.0-mc-grch38", ".dist", ".giraffe.gbz", ".shortread.withzip.min", ".shortread.zipcodes")),
     log:
         "logs/preprocess/{sample}_{hla}.log",
     conda:
         "../envs/orthanq.yaml"
     params:
         bwa_idx_prefix=lambda wc, input: os.path.splitext(input.bwa_index[0])[0],
-        output_folder=lambda wc, output: os.path.dirname(output[0]),
+        output_folder=subpath(output.bcf, parent=True),
         input_params=get_orthanq_input_params,
     threads: config["threads"]
     benchmark:
         "benchmarks/orthanq_preprocess/{sample}_{hla}.tsv"
     shell:
-        "orthanq preprocess hla --genome {input.genome} --bwa-index {params.bwa_idx_prefix} --haplotype-variants {input.candidate_variants} --vg-index {input.pangenome} --output {output} {params.input_params} --threads {threads} 2> {log}"
+        "orthanq preprocess hla --genome {input.genome} --bwa-index {params.bwa_idx_prefix} --haplotype-variants {input.candidate_variants} --vg-index {input.pangenome} --output {output.bcf} {params.input_params} --threads {threads} 2> {log}"
 
 
 # #wrappers should be used once they are ready
