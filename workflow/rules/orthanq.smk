@@ -26,7 +26,7 @@ rule create_graph_symlink:
     output:
         "results/preparation/linked_graphs/{sample}_{hla}/hprc-v1.0-mc-grch38.xg",
     params:
-        target_dir=subpath(output, parent=True),
+        target_dir=subpath(output[0], parent=True),
     log:
         "logs/link_graph/{sample}_{hla}.log",
     shell:
